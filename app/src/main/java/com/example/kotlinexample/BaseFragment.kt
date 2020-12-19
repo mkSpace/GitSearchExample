@@ -6,6 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 
+
 abstract class BaseFragment : Fragment() {
     private val disposables by lazy { CompositeDisposable() }
 

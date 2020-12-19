@@ -2,6 +2,7 @@ package com.example.kotlinexample
 
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
