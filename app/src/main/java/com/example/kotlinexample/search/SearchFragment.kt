@@ -23,20 +23,17 @@ import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : BaseFragment() {
+class SearchFragment : BaseFragment(), SearchAdapter.OnClickListener {
 
-    private val searchViewModel by viewModels<SearchViewModel> ()
+    private val searchViewModel by viewModels<SearchViewModel>()
 
     private val mainViewModel by activityViewModels<MainViewModel>()
 
-    private lateinit var adapter: SearchAdapter
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = SearchAdapter(::handleRepositoryItemClick)
-    }
+    @Inject
+    lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,15 +95,17 @@ class SearchFragment : BaseFragment() {
         searchViewModel.selectedRepository
             .observeOnMain()
             .subscribeWithErrorLogger {
-                mainViewModel.navigateNextStep(Step.DETAIL, bundleOf(
-                    Constants.REPOSITORY_ID to it.id,
-                    Constants.USER_NAME to it.owner.userName
-                ))
+                mainViewModel.navigateNextStep(
+                    Step.DETAIL, bundleOf(
+                        Constants.REPOSITORY_ID to it.id,
+                        Constants.USER_NAME to it.owner.userName
+                    )
+                )
             }
             .addToDisposables()
     }
 
-    private fun handleRepositoryItemClick(repository: Repository) {
+    override fun handleRepositoryItemClick(repository: Repository) {
         searchViewModel.selectRepository(repository)
             .observeOnMain()
             .subscribeWithErrorLogger()
