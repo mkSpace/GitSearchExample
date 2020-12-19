@@ -3,7 +3,6 @@ package com.example.kotlinexample.main
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.kotlinexample.BaseActivity
-import com.example.kotlinexample.Injection
 import com.example.kotlinexample.R
 import com.example.kotlinexample.detail.DetailFragment
 import com.example.kotlinexample.rx.observeOnMain

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.kotlinexample.BaseFragment
 import com.example.kotlinexample.Constants
-import com.example.kotlinexample.Injection
 import com.example.kotlinexample.R
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
