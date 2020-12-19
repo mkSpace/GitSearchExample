@@ -1,8 +1,13 @@
 package com.example.kotlinexample.detail
 
+import android.graphics.drawable.Drawable
 import android.util.Log
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import com.example.kotlinexample.BaseSchedulerProvider
 import com.example.kotlinexample.BaseViewModel
+import com.example.kotlinexample.Constants
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
 import com.example.kotlinexample.search.Repository
 import com.example.kotlinexample.search.SearchRepository
@@ -11,13 +16,15 @@ import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.combineLatest
 
-class DetailViewModel(
+class DetailViewModel @ViewModelInject constructor(
     schedulerProvider: BaseSchedulerProvider,
-    repositoryId: String,
-    userName: String,
     searchRepository: SearchRepository,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    @Assisted savedStateHandle: SavedStateHandle
 ) : BaseViewModel(schedulerProvider) {
+
+    val repositoryId by lazy { savedStateHandle.get(Constants.REPOSITORY_ID) ?: "" }
+    val userName by lazy { savedStateHandle.get(Constants.REPOSITORY_ID) ?: "" }
 
     private val repositoryProcessor = BehaviorProcessor.create<Repository>()
     private val followersProcessor: BehaviorProcessor<List<Repository.Owner>> =
