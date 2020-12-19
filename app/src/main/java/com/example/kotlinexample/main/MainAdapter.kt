@@ -14,30 +14,10 @@ import com.example.kotlinexample.search.Repository
 import com.mashup.image.GlideApp
 import kotlinx.android.synthetic.main.item_main_repository.view.*
 import java.text.SimpleDateFormat
+import javax.inject.Inject
 
-class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
-
-    companion object {
-        private const val PAYLOAD_ADDED_TIME_CHANGED = "payload_added_time_changed"
-        private val DIFF_CALLBACK =
-            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<Repository>() {
-                override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean =
-                    oldItem.id == newItem.id
-
-                override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean =
-                    oldItem == newItem
-
-                override fun getChangePayload(oldItem: Repository, newItem: Repository): Any? {
-                    return if (oldItem.addedTime != newItem.addedTime &&
-                        oldItem.copy(addedTime = newItem.addedTime) == newItem
-                    ) {
-                        PAYLOAD_ADDED_TIME_CHANGED
-                    } else {
-                        super.getChangePayload(oldItem, newItem)
-                    }
-                }
-            }).build()
-    }
+class MainAdapter @Inject constructor() :
+    ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     init {
         setHasStableIds(true)
@@ -94,5 +74,27 @@ class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBA
         val name: TextView = itemView.mainRepositoryName
         val language: TextView = itemView.mainRepositoryLanguage
         val addedTime: TextView = itemView.mainRepositoryAddedTime
+    }
+
+    companion object {
+        private const val PAYLOAD_ADDED_TIME_CHANGED = "payload_added_time_changed"
+        private val DIFF_CALLBACK =
+            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<Repository>() {
+                override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean =
+                    oldItem.id == newItem.id
+
+                override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean =
+                    oldItem == newItem
+
+                override fun getChangePayload(oldItem: Repository, newItem: Repository): Any? {
+                    return if (oldItem.addedTime != newItem.addedTime &&
+                        oldItem.copy(addedTime = newItem.addedTime) == newItem
+                    ) {
+                        PAYLOAD_ADDED_TIME_CHANGED
+                    } else {
+                        super.getChangePayload(oldItem, newItem)
+                    }
+                }
+            }).build()
     }
 }

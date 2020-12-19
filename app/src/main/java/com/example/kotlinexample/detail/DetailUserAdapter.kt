@@ -16,22 +16,6 @@ import kotlinx.android.synthetic.main.item_detail_users_user.view.*
 
 class DetailUserAdapter : ListAdapter<Repository.Owner, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    companion object {
-        private val DIFF_CALLBACK =
-            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<Repository.Owner>() {
-                override fun areItemsTheSame(
-                    oldItem: Repository.Owner,
-                    newItem: Repository.Owner
-                ): Boolean = oldItem.id == newItem.id
-
-                override fun areContentsTheSame(
-                    oldItem: Repository.Owner,
-                    newItem: Repository.Owner
-                ): Boolean = oldItem.id == newItem.id
-
-            }).build()
-    }
-
     init {
         setHasStableIds(true)
     }
@@ -58,4 +42,19 @@ class DetailUserAdapter : ListAdapter<Repository.Owner, RecyclerView.ViewHolder>
         val userName: TextView = itemView.userName
     }
 
+    companion object {
+        private val DIFF_CALLBACK =
+            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<Repository.Owner>() {
+                override fun areItemsTheSame(
+                    oldItem: Repository.Owner,
+                    newItem: Repository.Owner
+                ): Boolean = oldItem.id == newItem.id
+
+                override fun areContentsTheSame(
+                    oldItem: Repository.Owner,
+                    newItem: Repository.Owner
+                ): Boolean = oldItem.id == newItem.id
+
+            }).build()
+    }
 }

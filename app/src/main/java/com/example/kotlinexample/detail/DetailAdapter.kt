@@ -18,30 +18,11 @@ import com.mashup.image.GlideApp
 import kotlinx.android.synthetic.main.item_detail_information.view.*
 import kotlinx.android.synthetic.main.item_detail_profile.view.*
 import kotlinx.android.synthetic.main.item_detail_users.view.*
+import javax.inject.Inject
 
-class DetailAdapter(
-    private val onClickUrl: (String) -> Unit
+class DetailAdapter @Inject constructor(
+    private val listener: OnClickListener?,
 ) : ListAdapter<DetailAdapterItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
-
-    companion object {
-
-        private const val VIEW_TYPE_PROFILE = R.layout.item_detail_profile
-        private const val VIEW_TYPE_INFORMATION = R.layout.item_detail_information
-        private const val VIEW_TYPE_USERS = R.layout.item_detail_users
-
-        private val DIFF_CALLBACK =
-            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<DetailAdapterItem>() {
-                override fun areItemsTheSame(
-                    oldItem: DetailAdapterItem,
-                    newItem: DetailAdapterItem
-                ): Boolean = oldItem.id == newItem.id
-
-                override fun areContentsTheSame(
-                    oldItem: DetailAdapterItem,
-                    newItem: DetailAdapterItem
-                ): Boolean = oldItem == newItem
-            }).build()
-    }
 
     init {
         setHasStableIds(true)
@@ -85,7 +66,7 @@ class DetailAdapter(
         SpannableStringBuilder(item.repoName).apply {
             setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    onClickUrl(item.repoUrl)
+                    listener?.onUrlClick(item.repoUrl)
                 }
             }, 0, length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         }.let {
@@ -131,5 +112,30 @@ class DetailAdapter(
         init {
             users.adapter = adapter
         }
+    }
+
+    //Detail Adapter
+    interface OnClickListener {
+        fun onUrlClick(url: String)
+    }
+
+    companion object {
+
+        private const val VIEW_TYPE_PROFILE = R.layout.item_detail_profile
+        private const val VIEW_TYPE_INFORMATION = R.layout.item_detail_information
+        private const val VIEW_TYPE_USERS = R.layout.item_detail_users
+
+        private val DIFF_CALLBACK =
+            AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<DetailAdapterItem>() {
+                override fun areItemsTheSame(
+                    oldItem: DetailAdapterItem,
+                    newItem: DetailAdapterItem
+                ): Boolean = oldItem.id == newItem.id
+
+                override fun areContentsTheSame(
+                    oldItem: DetailAdapterItem,
+                    newItem: DetailAdapterItem
+                ): Boolean = oldItem == newItem
+            }).build()
     }
 }
