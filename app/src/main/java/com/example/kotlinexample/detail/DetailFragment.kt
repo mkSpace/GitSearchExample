@@ -1,6 +1,5 @@
 package com.example.kotlinexample.detail
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,18 +13,15 @@ import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment() {
+class DetailFragment : BaseFragment(), DetailAdapter.OnClickListener {
 
     private val detailViewModel by viewModels<DetailViewModel>()
 
-    private lateinit var adapter: DetailAdapter
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = DetailAdapter(::handleUrlClick)
-    }
+    @Inject
+    lateinit var adapter: DetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +48,7 @@ class DetailFragment : BaseFragment() {
             .addToDisposables()
     }
 
-    private fun handleUrlClick(url: String) {
+    override fun onUrlClick(url: String) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 }
