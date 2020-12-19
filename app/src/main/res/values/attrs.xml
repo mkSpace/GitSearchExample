@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="loadingViewStyle" format="reference" />
+    <declare-styleable name="LoadingView">
+        <attr name="indicator" format="reference" />
+        <attr name="radius" format="dimension" />
+        <attr name="indicatorPadding" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">KotlinExample</string>
+    <string name="action_settings">Settings</string>
+    <string name="user_avatar_description">user avatar</string>
+    <string name="main_empty">No recent repositories.</string>
+    <string name="search_empty">Not Found Result</string>
+    <string name="search">Search</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+
+    <plurals name="plurals_star">
+        <item quantity="one">%s star</item>
+        <item quantity="other">%s stars</item>
+    </plurals>
+</resources>
