@@ -2,7 +2,6 @@ package com.example.kotlinexample.search
 
 import android.app.SearchManager
 import android.content.ComponentName
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,31 +13,26 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.kotlinexample.BaseFragment
-import com.example.kotlinexample.Injection
-import com.example.kotlinexample.R
 import com.example.kotlinexample.Constants
+import com.example.kotlinexample.R
 import com.example.kotlinexample.extensions.hideSoftInput
 import com.example.kotlinexample.main.MainViewModel
 import com.example.kotlinexample.main.Step
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
+import javax.inject.Inject
 
-class SearchFragment : BaseFragment() {
+@AndroidEntryPoint
+class SearchFragment : BaseFragment(), SearchAdapter.OnClickListener {
 
-    private val searchViewModel by viewModels<SearchViewModel> {
-        Injection.provideSearchViewModelFactory(requireContext())
-    }
-    private val mainViewModel by activityViewModels<MainViewModel> {
-        Injection.provideMainViewModelFactory(requireContext())
-    }
+    private val searchViewModel by viewModels<SearchViewModel>()
 
-    private lateinit var adapter: SearchAdapter
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = SearchAdapter(::handleRepositoryItemClick)
-    }
+    @Inject
+    lateinit var adapter: SearchAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +52,8 @@ class SearchFragment : BaseFragment() {
         val searchView = (toolbar.menu.findItem(R.id.item_search).actionView as SearchView)
         val searchableInfo = searchManager.getSearchableInfo(
             ComponentName(
-                requireContext(),
-                requireContext().javaClass.name
+                requireActivity(),
+                requireActivity().javaClass.name
             )
         )
 
@@ -100,15 +94,17 @@ class SearchFragment : BaseFragment() {
         searchViewModel.selectedRepository
             .observeOnMain()
             .subscribeWithErrorLogger {
-                mainViewModel.navigateNextStep(Step.DETAIL, bundleOf(
-                    Constants.REPOSITORY_ID to it.id,
-                    Constants.USER_NAME to it.owner.userName
-                ))
+                mainViewModel.navigateNextStep(
+                    Step.DETAIL, bundleOf(
+                        Constants.REPOSITORY_ID to it.id,
+                        Constants.USER_NAME to it.owner.userName
+                    )
+                )
             }
             .addToDisposables()
     }
 
-    private fun handleRepositoryItemClick(repository: Repository) {
+    override fun onRepositoryClick(repository: Repository) {
         searchViewModel.selectRepository(repository)
             .observeOnMain()
             .subscribeWithErrorLogger()

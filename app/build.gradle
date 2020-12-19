@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 29
@@ -15,7 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
     }
@@ -27,6 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -65,6 +70,12 @@ dependencies {
 
     // Material
     implementation 'com.google.android.material:material:1.1.0'
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     // Android Architecture Components
     def lifecycle_version = "2.2.0-rc02"

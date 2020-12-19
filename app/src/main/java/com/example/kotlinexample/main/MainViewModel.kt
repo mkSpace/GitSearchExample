@@ -1,15 +1,18 @@
 package com.example.kotlinexample.main
 
 import android.os.Bundle
+import androidx.hilt.lifecycle.ViewModelInject
 import com.example.kotlinexample.BaseSchedulerProvider
 import com.example.kotlinexample.BaseViewModel
+import com.example.kotlinexample.search.Repository
 import com.example.kotlinexample.search.SearchRepository
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 
-class MainViewModel(
+class MainViewModel @ViewModelInject constructor(
     schedulerProvider: BaseSchedulerProvider,
-    searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
 ) : BaseViewModel(schedulerProvider) {
 
     private val currentStepWithBundleProcessor =
@@ -23,4 +26,8 @@ class MainViewModel(
     }
 
     val items = searchRepository.getRepositories()
+
+    fun deleteRepository(repository: Repository): Completable =
+        searchRepository.deleteRepositoryFromDatabase(repository)
+            .subscribeOnIO()
 }

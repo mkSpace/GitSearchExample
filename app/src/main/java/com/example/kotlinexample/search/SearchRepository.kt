@@ -4,9 +4,10 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.processors.BehaviorProcessor
-import java.util.Calendar
+import java.util.*
+import javax.inject.Inject
 
-class SearchRepository(
+class SearchRepository @Inject constructor(
     private val remote: SearchRemoteDataSource,
     private val repoDao: RepositoryDao
 ) {
@@ -30,6 +31,10 @@ class SearchRepository(
 
     fun insertRepositoryIntoDatabase(repository: Repository): Completable = Completable.fromAction {
         repoDao.insert(repository.copy(addedTime = Calendar.getInstance().timeInMillis))
+    }
+
+    fun deleteRepositoryFromDatabase(repository: Repository): Completable = Completable.fromAction {
+        repoDao.delete(repository)
     }
 
     fun getRepositorySingle(repositoryId: String): Single<Repository> =

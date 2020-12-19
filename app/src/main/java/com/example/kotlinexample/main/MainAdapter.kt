@@ -15,7 +15,9 @@ import com.mashup.image.GlideApp
 import kotlinx.android.synthetic.main.item_main_repository.view.*
 import java.text.SimpleDateFormat
 
-class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class MainAdapter(
+    private val listener: OnClickListener?
+) : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private const val PAYLOAD_ADDED_TIME_CHANGED = "payload_added_time_changed"
@@ -46,7 +48,17 @@ class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBA
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return SearchViewHolder(parent.inflate(R.layout.item_main_repository))
+        return SearchViewHolder(parent.inflate(R.layout.item_main_repository)).apply {
+            itemView.setOnClickListener {
+                val repository = getItem(adapterPosition)
+                listener?.onRepositoryClick(repository)
+            }
+            itemView.setOnLongClickListener {
+                val repository = getItem(adapterPosition)
+                listener?.onDeleteRepositoryClick(repository)
+                false
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -94,5 +106,11 @@ class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBA
         val name: TextView = itemView.mainRepositoryName
         val language: TextView = itemView.mainRepositoryLanguage
         val addedTime: TextView = itemView.mainRepositoryAddedTime
+    }
+
+    interface OnClickListener {
+        fun onRepositoryClick(repository: Repository)
+
+        fun onDeleteRepositoryClick(repository: Repository)
     }
 }

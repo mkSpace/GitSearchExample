@@ -1,21 +1,6 @@
 package com.example.kotlinexample
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.kotlinexample.api.SearchService
-import com.example.kotlinexample.api.UserService
-import com.example.kotlinexample.detail.DetailViewModel
-import com.example.kotlinexample.main.MainViewModel
-import com.example.kotlinexample.network.SampleRetrofit
-import com.example.kotlinexample.room.SampleDatabase
-import com.example.kotlinexample.search.RepositoryDao
-import com.example.kotlinexample.search.SearchRemoteDataSource
-import com.example.kotlinexample.search.SearchRepository
-import com.example.kotlinexample.search.SearchViewModel
-import com.example.kotlinexample.user.UserRemoteDataSource
-import com.example.kotlinexample.user.UserRepository
-
+/*
 object Injection {
 
     private fun getSearchService(): SearchService = SampleRetrofit.create(SearchService::class)
@@ -71,4 +56,4 @@ object Injection {
                     userRepository = getUserRepository()
                 ) as T
         }
-}
+}*/
