@@ -1,5 +1,6 @@
 package com.example.kotlinexample.di
 
+import androidx.fragment.app.Fragment
 import com.example.kotlinexample.main.MainAdapter
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,6 @@ import dagger.hilt.android.components.FragmentComponent
 object MainModule {
 
     @Provides
-    fun provideMainAdapter(): MainAdapter =
-        MainAdapter()
+    fun provideMainAdapter(fragment: Fragment): MainAdapter =
+        MainAdapter(fragment as? MainAdapter.OnClickListener)
 }
