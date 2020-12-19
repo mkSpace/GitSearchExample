@@ -1,6 +1,5 @@
 package com.example.kotlinexample.detail
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,27 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.kotlinexample.BaseFragment
 import com.example.kotlinexample.Constants
-import com.example.kotlinexample.Injection
 import com.example.kotlinexample.R
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
+import javax.inject.Inject
 
-class DetailFragment : BaseFragment() {
+@AndroidEntryPoint
+class DetailFragment : BaseFragment(), DetailAdapter.OnClickListener {
 
-    private val detailViewModel by viewModels<DetailViewModel> {
-        Injection.provideDetailViewModelFactory(requireContext(), repositoryId, userName)
-    }
+    private val detailViewModel by viewModels<DetailViewModel>()
 
-    private val repositoryId by lazy { arguments?.getString(Constants.REPOSITORY_ID) ?: "" }
-    private val userName by lazy { arguments?.getString(Constants.USER_NAME) ?: "" }
-
-    private lateinit var adapter: DetailAdapter
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = DetailAdapter(::handleUrlClick)
-    }
+    @Inject
+    lateinit var adapter: DetailAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,11 +45,15 @@ class DetailFragment : BaseFragment() {
 
         detailViewModel.items
             .observeOnMain()
-            .subscribeWithErrorLogger (adapter::submitList)
+            .subscribeWithErrorLogger(adapter::submitList)
             .addToDisposables()
     }
 
     private fun handleUrlClick(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    }
+
+    override fun onUrlClick(url: String) {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 }
