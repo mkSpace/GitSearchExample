@@ -8,24 +8,20 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.example.kotlinexample.BaseFragment
-import com.example.kotlinexample.Injection
 import com.example.kotlinexample.R
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainFragment : BaseFragment() {
 
-    private lateinit var adapter: MainAdapter
+    @Inject
+    lateinit var adapter: MainAdapter
 
-    private val mainViewModel by activityViewModels<MainViewModel> {
-        Injection.provideMainViewModelFactory(requireContext())
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = MainAdapter()
-    }
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

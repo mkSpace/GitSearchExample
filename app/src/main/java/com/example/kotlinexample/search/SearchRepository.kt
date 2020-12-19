@@ -5,8 +5,9 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.processors.BehaviorProcessor
 import java.util.Calendar
+import javax.inject.Inject
 
-class SearchRepository(
+class SearchRepository @Inject constructor(
     private val remote: SearchRemoteDataSource,
     private val repoDao: RepositoryDao
 ) {
