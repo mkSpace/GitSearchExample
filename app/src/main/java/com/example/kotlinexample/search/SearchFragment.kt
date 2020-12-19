@@ -14,24 +14,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.kotlinexample.BaseFragment
-import com.example.kotlinexample.Injection
-import com.example.kotlinexample.R
 import com.example.kotlinexample.Constants
+import com.example.kotlinexample.R
 import com.example.kotlinexample.extensions.hideSoftInput
 import com.example.kotlinexample.main.MainViewModel
 import com.example.kotlinexample.main.Step
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search.*
 
+@AndroidEntryPoint
 class SearchFragment : BaseFragment() {
 
-    private val searchViewModel by viewModels<SearchViewModel> {
-        Injection.provideSearchViewModelFactory(requireContext())
-    }
-    private val mainViewModel by activityViewModels<MainViewModel> {
-        Injection.provideMainViewModelFactory(requireContext())
-    }
+    private val searchViewModel by viewModels<SearchViewModel>()
+
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     private lateinit var adapter: SearchAdapter
 
@@ -58,8 +56,8 @@ class SearchFragment : BaseFragment() {
         val searchView = (toolbar.menu.findItem(R.id.item_search).actionView as SearchView)
         val searchableInfo = searchManager.getSearchableInfo(
             ComponentName(
-                requireContext(),
-                requireContext().javaClass.name
+                requireActivity(),
+                requireActivity().javaClass.name
             )
         )
 
@@ -100,10 +98,12 @@ class SearchFragment : BaseFragment() {
         searchViewModel.selectedRepository
             .observeOnMain()
             .subscribeWithErrorLogger {
-                mainViewModel.navigateNextStep(Step.DETAIL, bundleOf(
-                    Constants.REPOSITORY_ID to it.id,
-                    Constants.USER_NAME to it.owner.userName
-                ))
+                mainViewModel.navigateNextStep(
+                    Step.DETAIL, bundleOf(
+                        Constants.REPOSITORY_ID to it.id,
+                        Constants.USER_NAME to it.owner.userName
+                    )
+                )
             }
             .addToDisposables()
     }

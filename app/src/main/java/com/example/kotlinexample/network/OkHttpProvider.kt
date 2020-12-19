@@ -1,10 +1,6 @@
 package com.example.kotlinexample.network
 
-import com.example.kotlinexample.BuildConfig
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
-
+/*
 object OkHttpProvider {
 
     private const val TIMEOUT_CONNECT = 10L
@@ -23,4 +19,4 @@ object OkHttpProvider {
             }
         }
     }
-}
+}*/

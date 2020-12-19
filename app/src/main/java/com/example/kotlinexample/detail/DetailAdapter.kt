@@ -18,9 +18,10 @@ import com.mashup.image.GlideApp
 import kotlinx.android.synthetic.main.item_detail_information.view.*
 import kotlinx.android.synthetic.main.item_detail_profile.view.*
 import kotlinx.android.synthetic.main.item_detail_users.view.*
+import javax.inject.Inject
 
-class DetailAdapter(
-    private val onClickUrl: (String) -> Unit
+class DetailAdapter @Inject constructor(
+    private val listener: OnClickListener?
 ) : ListAdapter<DetailAdapterItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -85,7 +86,7 @@ class DetailAdapter(
         SpannableStringBuilder(item.repoName).apply {
             setSpan(object : ClickableSpan() {
                 override fun onClick(widget: View) {
-                    onClickUrl(item.repoUrl)
+                    listener?.onUrlClick(item.repoUrl)
                 }
             }, 0, length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         }.let {
@@ -131,5 +132,9 @@ class DetailAdapter(
         init {
             users.adapter = adapter
         }
+    }
+
+    interface OnClickListener {
+        fun onUrlClick(url: String)
     }
 }
