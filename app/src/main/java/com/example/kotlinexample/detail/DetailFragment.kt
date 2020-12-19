@@ -9,20 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.kotlinexample.BaseFragment
-import com.example.kotlinexample.Constants
 import com.example.kotlinexample.R
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment() {
 
-    private val detailViewModel by viewModels<DetailViewModel> {
-        Injection.provideDetailViewModelFactory(requireContext(), repositoryId, userName)
-    }
-
-    private val repositoryId by lazy { arguments?.getString(Constants.REPOSITORY_ID) ?: "" }
-    private val userName by lazy { arguments?.getString(Constants.USER_NAME) ?: "" }
+    private val detailViewModel by viewModels<DetailViewModel>()
 
     private lateinit var adapter: DetailAdapter
 

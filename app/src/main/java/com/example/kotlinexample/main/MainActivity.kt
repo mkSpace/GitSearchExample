@@ -13,9 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
-    private val mainViewModel by viewModels<MainViewModel> {
-        Injection.provideMainViewModelFactory(this)
-    }
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
