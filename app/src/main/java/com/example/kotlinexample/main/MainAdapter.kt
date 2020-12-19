@@ -38,7 +38,6 @@ class MainAdapter : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBA
                 }
             }).build()
     }
-
     init {
         setHasStableIds(true)
     }
