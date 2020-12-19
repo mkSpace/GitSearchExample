@@ -55,8 +55,8 @@ class SearchFragment : BaseFragment() {
         val searchView = (toolbar.menu.findItem(R.id.item_search).actionView as SearchView)
         val searchableInfo = searchManager.getSearchableInfo(
             ComponentName(
-                requireContext(),
-                requireContext().javaClass.name
+                requireActivity(),
+                requireActivity().javaClass.name
             )
         )
 
