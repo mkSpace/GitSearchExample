@@ -8,7 +8,9 @@ import com.example.kotlinexample.detail.DetailFragment
 import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
 import com.example.kotlinexample.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private val mainViewModel by viewModels<MainViewModel> {
