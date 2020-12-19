@@ -5,9 +5,10 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import javax.inject.Inject
 
 @Entity(tableName = "repositories")
-data class Repository(
+data class Repository @Inject constructor(
     @PrimaryKey val id: String,
     val name: String,
     @Embedded val owner: Owner,

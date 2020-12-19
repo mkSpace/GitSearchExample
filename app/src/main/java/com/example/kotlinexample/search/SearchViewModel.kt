@@ -1,12 +1,13 @@
 package com.example.kotlinexample.search
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.example.kotlinexample.BaseSchedulerProvider
 import com.example.kotlinexample.BaseViewModel
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.processors.PublishProcessor
 
-class SearchViewModel(
+class SearchViewModel @ViewModelInject constructor(
     schedulerProvider: BaseSchedulerProvider,
     private val searchRepository: SearchRepository
 ) : BaseViewModel(schedulerProvider) {
