@@ -1,9 +1,11 @@
 package com.example.kotlinexample.user
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.example.kotlinexample.search.Repository
 import io.reactivex.Single
+import javax.inject.Inject
 
-class UserRepository(private val remote: UserRemoteDataSource) {
+class UserRepository @Inject constructor(private val remote: UserRemoteDataSource) {
 
     fun loadFollowing(userName: String): Single<List<Repository.Owner>> =
         remote.loadFollowing(userName)
