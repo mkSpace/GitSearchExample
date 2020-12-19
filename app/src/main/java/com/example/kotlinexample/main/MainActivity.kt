@@ -48,4 +48,12 @@ class MainActivity : BaseActivity() {
                 .commit()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val fragments = supportFragmentManager.fragments
+        if (fragments.size <= 1) {
+            finish()
+        }
+    }
 }
