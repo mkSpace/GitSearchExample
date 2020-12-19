@@ -33,6 +33,10 @@ class SearchRepository @Inject constructor(
         repoDao.insert(repository.copy(addedTime = Calendar.getInstance().timeInMillis))
     }
 
+    fun deleteRepositoryFromDatabase(repository: Repository): Completable = Completable.fromAction {
+        repoDao.delete(repository)
+    }
+
     fun getRepositorySingle(repositoryId: String): Single<Repository> =
         repoDao.getRepositorySingle(repositoryId)
 

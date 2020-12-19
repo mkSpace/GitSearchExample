@@ -1,5 +1,6 @@
 package com.example.kotlinexample.main
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,5 +62,23 @@ class MainFragment : BaseFragment(), MainAdapter.OnClickListener {
                 Constants.USER_NAME to repository.owner.userName
             )
         )
+    }
+
+    override fun onDeleteRepositoryClick(repository: Repository) {
+        val builder = AlertDialog.Builder(requireContext()).apply {
+            setTitle("확인해주세요").setMessage("삭제하시겠습니까?")
+            setPositiveButton("삭제") { _, _ ->
+                mainViewModel.deleteRepository(repository)
+                    .observeOnMain()
+                    .subscribeWithErrorLogger()
+                    .addToDisposables()
+            }
+            setNegativeButton("취소") { _, _ ->
+                //..
+            }
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 }

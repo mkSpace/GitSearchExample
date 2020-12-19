@@ -53,6 +53,11 @@ class MainAdapter(
                 val repository = getItem(adapterPosition)
                 listener?.onRepositoryClick(repository)
             }
+            itemView.setOnLongClickListener {
+                val repository = getItem(adapterPosition)
+                listener?.onDeleteRepositoryClick(repository)
+                false
+            }
         }
     }
 
@@ -105,5 +110,7 @@ class MainAdapter(
 
     interface OnClickListener {
         fun onRepositoryClick(repository: Repository)
+
+        fun onDeleteRepositoryClick(repository: Repository)
     }
 }
