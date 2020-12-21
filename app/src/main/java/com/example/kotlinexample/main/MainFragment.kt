@@ -1,6 +1,5 @@
 package com.example.kotlinexample.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,18 +12,15 @@ import com.example.kotlinexample.rx.observeOnMain
 import com.example.kotlinexample.rx.subscribeWithErrorLogger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment() {
 
-    private lateinit var adapter: MainAdapter
+    @Inject
+    lateinit var adapter: MainAdapter
 
     private val mainViewModel by activityViewModels<MainViewModel>()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = MainAdapter()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
