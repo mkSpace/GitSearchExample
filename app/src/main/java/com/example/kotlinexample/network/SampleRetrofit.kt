@@ -26,4 +26,8 @@ object SampleRetrofit {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(service)
+
+    inline fun <reified T : Any> create(okHttpClient: OkHttpClient): T {
+        return create(T::class.java, okHttpClient)
+    }
 }
