@@ -14,7 +14,7 @@ import com.mashup.image.GlideApp
 import kotlinx.android.synthetic.main.item_repository.view.*
 
 class SearchAdapter(
-    private val onClickRepository: (Repository) -> Unit
+    private val listener: OnClickListener?
 ) : ListAdapter<Repository, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -50,7 +50,7 @@ class SearchAdapter(
             .into(avatar)
         name.text = if (item.name.isNotBlank()) item.name else "No language"
         language.text = item.language
-        itemView.setOnClickListener { onClickRepository(item) }
+        itemView.setOnClickListener { listener?.onClickRepository(item) }
     }
 
     private class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -58,4 +58,9 @@ class SearchAdapter(
         val name: TextView = itemView.repositoryName
         val language: TextView = itemView.repositoryLanguage
     }
+
+    interface OnClickListener {
+        fun onClickRepository(repository: Repository)
+    }
+
 }
